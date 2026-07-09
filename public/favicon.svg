@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Circular outline with dark theme styling -->
+  <circle cx="50" cy="50" r="46" fill="#0f172a" stroke="#3b82f6" stroke-width="4" />
+  
+  <!-- Crossed Cricket Bat -->
+  <g transform="rotate(-45 50 50)">
+    <!-- Handle -->
+    <rect x="47" y="10" width="6" height="25" rx="1" fill="#f59e0b" stroke="#78350f" stroke-width="1" />
+    <line x1="47" y1="20" x2="53" y2="20" stroke="#78350f" />
+    <line x1="47" y1="28" x2="53" y2="28" stroke="#78350f" />
+    <!-- Bat Body -->
+    <path d="M 45 35 L 55 35 L 57 78 L 50 82 L 43 78 Z" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
+    <path d="M 50 35 L 50 82" stroke="#b45309" stroke-width="1" />
+  </g>
+
+  <!-- Cricket Ball -->
+  <circle cx="68" cy="68" r="14" fill="#ef4444" stroke="#991b1b" stroke-width="1.5" />
+  <!-- Ball Seam -->
+  <path d="M 57 60 Q 68 71 79 60" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2,2" />
+  <path d="M 59 62 Q 68 73 77 62" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1" />
+</svg>

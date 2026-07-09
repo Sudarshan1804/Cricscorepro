@@ -1,0 +1,1277 @@
+/* ==========================================
+   CSS VARIABLES & DESIGN SYSTEM
+   ========================================== */
+:root {
+    /* Fonts */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+
+    /* Transition speeds */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease-in-out;
+    --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --shadow-glow-green: 0 0 15px rgba(34, 197, 94, 0.3);
+    --shadow-glow-red: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Dark Theme (Default) */
+body.dark-theme {
+    --bg-app: #0f172a; /* Deep Slate Blue */
+    --bg-card: rgba(30, 41, 59, 0.7); /* Translucent Slate */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc; /* Crisp white */
+    --text-secondary: #94a3b8; /* Muted slate */
+    --text-muted: #64748b;
+    --primary-color: #3b82f6; /* Electric Blue */
+    --primary-hover: #2563eb;
+    --success-color: #22c55e; /* Vibrant Green */
+    --success-hover: #16a34a;
+    --danger-color: #ef4444; /* Alert Red */
+    --danger-hover: #dc2626;
+    --warning-color: #eab308; /* Yellow */
+    --accent-glow: rgba(59, 130, 246, 0.15);
+    --glass-opacity: rgba(15, 23, 42, 0.45);
+    --card-hover-bg: rgba(51, 65, 85, 0.6);
+}
+
+/* Light Theme */
+body.light-theme {
+    --bg-app: #f1f5f9; /* Slate 100 */
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --success-color: #16a34a;
+    --success-hover: #15803d;
+    --danger-color: #dc2626;
+    --danger-hover: #b91c1c;
+    --warning-color: #ca8a04;
+    --accent-glow: rgba(37, 99, 235, 0.1);
+    --glass-opacity: rgba(255, 255, 255, 0.35);
+    --card-hover-bg: rgba(255, 255, 255, 0.95);
+}
+
+/* ==========================================
+   RESET & GLOBAL STYLES
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    overflow-x: hidden;
+}
+
+/* Container */
+.app-container {
+    width: 100%;
+    max-width: 600px; /* Centered compact container for mobile feel on desktop */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px 24px 16px;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.35rem;
+}
+
+.logo-accent {
+    color: var(--primary-color);
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--border-color);
+    color: var(--text-primary);
+    transition: transform var(--transition-fast) ease, background-color var(--transition-fast);
+}
+
+.icon-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--card-hover-bg);
+}
+
+/* Themes icon display */
+body.dark-theme .sun-icon { display: block; }
+body.dark-theme .moon-icon { display: none; }
+body.light-theme .sun-icon { display: none; }
+body.light-theme .moon-icon { display: block; }
+
+/* Main app section */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Screen visibility */
+.screen {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ==========================================
+   REUSABLE UI COMPONENTS
+   ========================================== */
+
+/* Glassmorphism Cards */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.glassmorphism {
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+.card-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.section-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+/* Helper Utilities */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+.hidden { display: none !important; }
+.btn-block { width: 100%; }
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Typography elements */
+h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Inputs & Forms */
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+body.light-theme input[type="text"],
+body.light-theme input[type="number"],
+body.light-theme select {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Buttons */
+.btn {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+.btn-secondary:hover {
+    background-color: var(--card-hover-bg);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+}
+.btn-outline:hover {
+    background-color: var(--border-color);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: #ffffff;
+}
+.btn-success:hover {
+    background-color: var(--success-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: #ffffff;
+}
+.btn-danger:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+}
+
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Interactive Card Options (Coin Toss & Choice) */
+.select-card {
+    padding: 20px !important;
+    text-align: center;
+    height: 100%;
+}
+
+.select-card.active,
+.btn-outline.active {
+    border-color: var(--primary-color) !important;
+    background-color: var(--accent-glow) !important;
+    box-shadow: 0 0 0 1px var(--primary-color);
+    color: var(--primary-color);
+}
+
+.select-card-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 16px !important;
+}
+
+.card-icon {
+    font-size: 2rem;
+}
+
+.toss-summary-box {
+    background-color: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 12px;
+    padding: 14px;
+    color: var(--success-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Tabs */
+.tabs-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 6px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    transition: color var(--transition-fast);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.tab-pane {
+    display: none;
+    flex-direction: column;
+}
+
+.tab-pane.active {
+    display: flex;
+}
+
+.player-inputs-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.player-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.player-index {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    width: 20px;
+}
+
+.player-input-row input {
+    flex: 1;
+}
+
+/* ==========================================
+   SCORING SCREEN & SCOREBOARD STYLES
+   ========================================== */
+
+/* Scoreboard Card */
+.scoreboard-card {
+    background: linear-gradient(135deg, var(--bg-card), rgba(30, 41, 59, 0.45));
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-lg);
+}
+
+.scoreboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.match-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.badge {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.target-info {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--warning-color);
+}
+
+.scoreboard-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.score-display {
+    display: flex;
+    flex-direction: column;
+}
+
+.score-display h1 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 2.8rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+#score-overs {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.runs-math-display {
+    display: flex;
+    gap: 12px;
+}
+
+.run-rate-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.run-rate-box .lbl {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.run-rate-box .val {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.scoreboard-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--warning-color);
+}
+
+/* Batsman & Bowler Lists */
+.players-live-card {
+    padding: 16px 20px;
+    border-radius: 16px;
+}
+
+.card-title-small {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.batsman-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.batsman-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.batsman-row:first-child {
+    padding-top: 0;
+}
+
+.batsman-row.active {
+    background-color: rgba(59, 130, 246, 0.05);
+    border-radius: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.batsman-name-col {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.striker-dot {
+    font-size: 0.8rem;
+    visibility: hidden;
+    width: 14px;
+    display: inline-block;
+}
+
+.active .striker-dot {
+    visibility: visible;
+}
+
+.active .p-name {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.p-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.batsman-stats-col {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.p-runs {
+    font-weight: 700;
+}
+
+.p-balls {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.p-divider {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.sub-stats {
+    display: flex;
+    gap: 8px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    position: absolute;
+    bottom: -12px;
+    right: 0;
+    white-space: nowrap;
+}
+
+.sub-stats strong {
+    color: var(--text-secondary);
+}
+
+/* Bowler Live Card */
+.bowler-live-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bowler-name-col {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bowler-icon {
+    font-size: 0.85rem;
+}
+
+.bowler-stats-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.bowler-numbers {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.lbl-divider {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin: 0 2px;
+}
+
+/* Over Timeline */
+.over-timeline-container {
+    padding: 14px 20px;
+    border-radius: 16px;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.extras-counter {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+}
+
+.timeline-balls {
+    display: flex;
+    gap: 8px;
+    min-height: 32px;
+    align-items: center;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.ball-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    background-color: var(--border-color);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-primary);
+    transition: transform 0.2s ease;
+}
+
+.ball-badge.font-dot {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.ball-badge.font-boundary {
+    background-color: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: var(--success-color);
+    box-shadow: var(--shadow-glow-green);
+    transform: scale(1.05);
+}
+
+.ball-badge.font-wicket {
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: var(--danger-color);
+    box-shadow: var(--shadow-glow-red);
+    transform: scale(1.05);
+}
+
+.ball-badge.font-extra {
+    background-color: rgba(234, 179, 8, 0.1);
+    border-color: rgba(234, 179, 8, 0.3);
+    color: var(--warning-color);
+}
+
+/* Keypad Grid for Scoring */
+.keypad-card {
+    padding: 16px;
+    border-radius: 20px;
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.keypad-btn {
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+body.light-theme .keypad-btn {
+    background-color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.keypad-btn:hover {
+    background-color: var(--border-color);
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+}
+
+.keypad-btn.btn-dot {
+    color: var(--text-muted);
+}
+
+.keypad-btn.btn-boundary {
+    color: var(--success-color);
+    background-color: rgba(34, 197, 94, 0.05);
+    border-color: rgba(34, 197, 94, 0.15);
+}
+
+.keypad-btn.btn-boundary:hover {
+    background-color: rgba(34, 197, 94, 0.1);
+}
+
+.keypad-btn.btn-extra {
+    color: var(--warning-color);
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: rgba(234, 179, 8, 0.05);
+    border-color: rgba(234, 179, 8, 0.15);
+}
+
+.keypad-btn.btn-extra:hover {
+    background-color: rgba(234, 179, 8, 0.1);
+}
+
+.keypad-btn.btn-wicket {
+    color: var(--danger-color);
+    font-size: 1.05rem;
+    font-weight: 600;
+    background-color: rgba(239, 68, 68, 0.06);
+    border-color: rgba(239, 68, 68, 0.15);
+}
+
+.keypad-btn.btn-wicket:hover {
+    background-color: rgba(239, 68, 68, 0.12);
+}
+
+/* ==========================================
+   TRANSITION / INNINGS BREAK SCREEN
+   ========================================== */
+.innings-summary-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.huge-score {
+    font-family: var(--font-heading);
+    font-size: 3.2rem;
+    font-weight: 800;
+    margin: 8px 0;
+    color: var(--primary-color);
+}
+
+.detail-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.chase-target-card {
+    background-color: rgba(234, 179, 8, 0.05);
+    border: 1px dashed rgba(234, 179, 8, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.target-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+}
+
+.target-score {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--warning-color);
+    margin: 4px 0;
+}
+
+.target-requirement {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   FINAL SCORECARD SCREEN
+   ========================================== */
+.match-conclusion-header {
+    margin-bottom: 20px;
+}
+
+.trophy-animation {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    display: inline-block;
+    animation: jump-shake 1.5s infinite ease-in-out;
+}
+
+#match-conclusion-result {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--success-color);
+}
+
+.innings-title-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.scorecard-total-badge {
+    font-weight: 700;
+    font-size: 0.9rem;
+    background-color: var(--border-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.scorecard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.scorecard-table th {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 6px;
+    border-bottom: 1.5px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+}
+
+.scorecard-table td {
+    padding: 10px 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+body.light-theme .scorecard-table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.scorecard-table th.text-right,
+.scorecard-table td.text-right {
+    text-align: right;
+}
+
+.extras-scorecard-row {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding: 8px 6px;
+    background-color: rgba(255, 255, 255, 0.01);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 16px;
+}
+
+/* ==========================================
+   MODALS AND DIALOGS
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-normal);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-card {
+    background-color: #1e293b;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px);
+    transition: transform var(--transition-slow);
+}
+
+body.light-theme .modal-card {
+    background-color: #ffffff;
+}
+
+.modal-overlay.active .modal-card {
+    transform: translateY(0);
+}
+
+.modal-header {
+    margin-bottom: 12px;
+}
+
+.modal-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.selection-options-list {
+    max-height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.select-player-btn {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    text-align: left;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+body.light-theme .select-player-btn {
+    background-color: #f8fafc;
+}
+
+.select-player-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--text-muted);
+}
+
+body.light-theme .select-player-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.select-player-btn .player-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background-color: var(--border-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Extras options grid modal */
+.extras-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.extras-option-btn {
+    padding: 16px !important;
+    font-size: 1rem !important;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn var(--transition-slow);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.95; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes jump-shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(0, -3px) rotate(-2deg); }
+    20% { transform: translate(0, -6px) rotate(2deg); }
+    30% { transform: translate(0, -6px) rotate(-2deg); }
+    40% { transform: translate(0, -4px) rotate(2deg); }
+    50% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Custom Scrollbar for list scroll */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================
+   COIN FLIP ANIMATIONS & LAYOUTS
+   ========================================== */
+.coin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.coin-wrapper {
+    perspective: 1000px;
+    width: 90px;
+    height: 90px;
+    margin: 16px 0;
+}
+
+.coin {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.coin.flipping {
+    animation: spin-coin-anim 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.coin-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    border: 4px solid #f59e0b; /* Gold border */
+}
+
+.coin-heads {
+    background: radial-gradient(circle, #fcd34d 0%, #d97706 100%);
+    color: #78350f;
+}
+
+.coin-tails {
+    background: radial-gradient(circle, #94a3b8 0%, #475569 100%);
+    color: #1e293b;
+    transform: rotateY(180deg);
+}
+
+@keyframes spin-coin-anim {
+    0% { transform: rotateY(0) scale(1); }
+    30% { transform: rotateY(720deg) translateY(-50px) scale(1.15); }
+    70% { transform: rotateY(1440deg) translateY(-25px) scale(1.05); }
+    100% { transform: rotateY(1800deg) scale(1); }
+}
+
+/* Wicket modal cards */
+.wicket-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.wicket-card-btn {
+    padding: 12px 6px !important;
+    font-size: 0.82rem !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border-radius: 10px !important;
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.wicket-card-btn.active {
+    background-color: var(--accent-glow) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color);
+}
+
+.wicket-card-btn .wicket-type-icon {
+    font-size: 1.35rem;
+}
+
+/* ==========================================
+   MOBILE RESPONSIVENESS UPDATES
+   ========================================== */
+@media (max-width: 480px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+    .wicket-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .app-container {
+        padding: 0 12px 16px 12px;
+    }
+    .section-title {
+        font-size: 1.35rem;
+    }
+}
+
