@@ -42,10 +42,41 @@ const initialMatchState: MatchState = {
     extraRunsPenalty: true
 };
 
+const getInitialMatchState = (): MatchState => {
+    try {
+        const saved = localStorage.getItem('cricscore_saved_teams');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.teamAName && parsed.teamBName && parsed.teamAPlayers && parsed.teamBPlayers) {
+                return {
+                    ...initialMatchState,
+                    teamSize: parsed.teamSize || parsed.teamAPlayers.length || 11,
+                    teamAName: parsed.teamAName,
+                    teamBName: parsed.teamBName,
+                    teamAPlayers: parsed.teamAPlayers,
+                    teamBPlayers: parsed.teamBPlayers
+                };
+            }
+        }
+    } catch (e) {
+        console.error('Error loading saved match settings:', e);
+    }
+    return initialMatchState;
+};
+
 export default function App() {
     // Core States
-    const [matchState, setMatchState] = useState<MatchState>(initialMatchState);
+    const [matchState, setMatchState] = useState<MatchState>(getInitialMatchState);
     const [history, setHistory] = useState<MatchState[]>([]);
+
+    // Roster save preference state
+    const [saveRoster, setSaveRoster] = useState<boolean>(() => {
+        try {
+            return localStorage.getItem('cricscore_save_rosters_option') !== 'false';
+        } catch {
+            return true;
+        }
+    });
     
     // Theme state
     const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -278,6 +309,30 @@ export default function App() {
         if (duplicatesAcross.length > 0) {
             showToast(`Player name "${duplicatesAcross[0]}" cannot be in both teams!`);
             return;
+        }
+
+        // Save rosters if selected
+        if (saveRoster) {
+            try {
+                localStorage.setItem('cricscore_saved_teams', JSON.stringify({
+                    teamSize: matchState.teamSize,
+                    teamAName: matchState.teamAName,
+                    teamBName: matchState.teamBName,
+                    teamAPlayers: playersA,
+                    teamBPlayers: playersB
+                }));
+                localStorage.setItem('cricscore_save_rosters_option', 'true');
+                showToast('💾 Teams & Players saved successfully!');
+            } catch (e) {
+                console.error('Failed to save to localStorage:', e);
+            }
+        } else {
+            try {
+                localStorage.removeItem('cricscore_saved_teams');
+                localStorage.setItem('cricscore_save_rosters_option', 'false');
+            } catch (e) {
+                console.error('Failed to clear localStorage:', e);
+            }
         }
 
         setMatchState(prev => ({
@@ -665,7 +720,7 @@ export default function App() {
     };
 
     const restartMatch = () => {
-        setMatchState(initialMatchState);
+        setMatchState(getInitialMatchState());
         setHistory([]);
         setActiveRosterTab('A');
         setActiveScorecardTab(0);
@@ -1081,6 +1136,18 @@ export default function App() {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="checkbox-container">
+                                <input 
+                                    type="checkbox" 
+                                    id="save-rosters" 
+                                    checked={saveRoster} 
+                                    onChange={e => setSaveRoster(e.target.checked)}
+                                />
+                                <label htmlFor="save-rosters" className="checkbox-label">
+                                    💾 Save teams and players for future matches
+                                </label>
                             </div>
 
                             <div className="action-footer grid-2 mt-4">
