@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { MatchState, InningsData } from './types';
 
 // ==========================================
@@ -135,6 +135,45 @@ export default function App() {
     useEffect(() => {
         document.body.className = `${theme}-theme`;
     }, [theme]);
+
+    const isPopStateRef = useRef<boolean>(false);
+
+    // Sync React screen state with Browser History for Back button support
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            if (event.state && event.state.screen) {
+                isPopStateRef.current = true;
+                setMatchState(prev => {
+                    if (prev.screen !== event.state.screen) {
+                        return { ...prev, screen: event.state.screen };
+                    }
+                    return prev;
+                });
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        // Push initial screen state on mount if it's not already set
+        if (!window.history.state || window.history.state.screen !== matchState.screen) {
+            window.history.replaceState({ screen: matchState.screen }, '', '');
+        }
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
+    // Watch screen changes to push to history, preventing loops via isPopStateRef
+    useEffect(() => {
+        if (isPopStateRef.current) {
+            isPopStateRef.current = false;
+            return;
+        }
+        if (!window.history.state || window.history.state.screen !== matchState.screen) {
+            window.history.pushState({ screen: matchState.screen }, '', '');
+        }
+    }, [matchState.screen]);
 
     // Toast auto-hide
     useEffect(() => {
